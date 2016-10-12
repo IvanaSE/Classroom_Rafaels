@@ -1,4 +1,4 @@
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.text.DecimalFormat;
 import java.util.Random;
@@ -13,7 +13,7 @@ public class StudentTest {
 	Student stLong = new Student("Rafael", "Silva", 30, 'M', 5.3, 8.6, 7.2);
 	public static final Logger LOG = Logger.getLogger(Student.class.getName());
 	Random random = new Random();
-	DecimalFormat df = new DecimalFormat("#.##");
+	DecimalFormat df = new DecimalFormat("#.#");
 	
 	@Test
 	public void testStudentConstructorShort (){
@@ -41,6 +41,7 @@ public class StudentTest {
 	public void testSetterAndGetterForFirstGrade (){
 		double grade = Double.valueOf(df.format(random.nextDouble()*10));
 		stLong.setFirstGrade(grade);
+		/*ta negativa nummer, noll, jättelånga siffror, jätte korta siffror, en test med random oformaterade*/
 		assertEquals(stLong.getFirstGrade(), grade, 0.00001);
 		LOG.info("Testing setter and getter for first grade with: " + grade);
 	}
@@ -63,7 +64,7 @@ public class StudentTest {
 	
 	@Test
 	public void testSetterAndGetterForAverageGrade (){
-		double grade = (stLong.getFirstGrade()+stLong.getSecondGrade()+stLong.getThirdGrade())/3;
+		double grade = Double.valueOf(df.format((stLong.getFirstGrade()+stLong.getSecondGrade()+stLong.getThirdGrade())/3));
 		// double grade = Double.valueOf(df.format(random.nextDouble()*10));
 		LOG.info("Testing setter and getter for average grade with: " + grade);
 		stLong.setAverageGrade(grade);
@@ -72,30 +73,53 @@ public class StudentTest {
 	
 	@Test
 	public void testCalculateAverageWithOneParameter (){
-		double sum = (stLong.getFirstGrade() + stLong.getSecondGrade() + stLong.getThirdGrade());
-		double average = sum/3;
+		double sum = Double.valueOf(df.format((stLong.getFirstGrade()+stLong.getSecondGrade()+stLong.getThirdGrade())));
+		/*double sum = (stLong.getFirstGrade() + stLong.getSecondGrade() + stLong.getThirdGrade());*/
+		double average = Double.valueOf(df.format(sum/3));
 		/*stLong.setAverageGrade(average);*/
 		LOG.info("Testing method calculate average grade with: " + average);
-		assertEquals(stLong.calculateAverage(stLong.getFirstGrade()), average, 0.000001);		
+		assertEquals(stLong.calculateAverage(stLong.getFirstGrade()), average, 0.1);		
 	}
 	
 	@Test
 	public void testCalculateAverageWithoutParameters(){
-		double sum = (stLong.getFirstGrade() + stLong.getSecondGrade() + stLong.getThirdGrade());
-		double average = sum/3;
+		double sum = Double.valueOf(df.format((stLong.getFirstGrade()+stLong.getSecondGrade()+stLong.getThirdGrade())));
+		double average = Double.valueOf(df.format(sum/3));
 		/*stLong.setAverageGrade(average);*/	
 		LOG.info("Testing method calculate average grade with: " + average);
-		assertEquals(stLong.calculateAverage(), average, 0.000001);		
+		assertEquals(stLong.calculateAverage(), average, 0.1);		
 	}
 	
 
 	@Test
 	public void testCalculateAverageWithThreeParameters(){
-		double sum = (stLong.getFirstGrade() + stLong.getSecondGrade() + stLong.getThirdGrade());
-		double average = sum/3;
+		double sum = Double.valueOf(df.format((stLong.getFirstGrade()+stLong.getSecondGrade()+stLong.getThirdGrade())));
+		double average = Double.valueOf(df.format(sum/3));
 		/*stLong.setAverageGrade(average);*/	
 		LOG.info("Testing method calculate average grade with: " + average);
-		assertEquals(stLong.calculateAverage(stLong.getFirstGrade(),stLong.getSecondGrade(),stLong.getThirdGrade()), average, 0.000001);		
+		assertEquals(stLong.calculateAverage(stLong.getFirstGrade(),stLong.getSecondGrade(),stLong.getThirdGrade()), average, 0.1);		
+	}
+	@Test
+	public void testHasClearedTheCourse (){
+		double tempGrade = stLong.getAverageGrade();
+		
+		stLong.setAverageGrade(tempGrade +6);
+		LOG.info("Testing method hasClearedTheCourse with: " + (stLong.getAverageGrade()+6));
+		assertEquals(stLong.hasClearedTheCourse(), true);
+		
+		stLong.setAverageGrade(tempGrade -6);
+		LOG.info("Testing method hasClearedTheCourse with: " + (stLong.getAverageGrade()-6));
+		assertEquals(stLong.hasClearedTheCourse(), false);	
+	}
+	
+	@Test
+	public void testToString (){
+		Student stud1 = new Student("Rafael","Silva",30,'M',6.5, 9.5,8.2);
+		String string1 = stud1.toString();
+		assertTrue(string1.contains("has cleared"));
+		Student stud2 = new Student("Rafael","Silva",30,'M',3.2, 5.1, 4.3);
+		String string2 = stud2.toString();
+		assertTrue(string2.contains("has not cleared"));	
 	}
 	
 }
