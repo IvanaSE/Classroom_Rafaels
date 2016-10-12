@@ -40,10 +40,10 @@ public class StudentTest {
 	@Test
 	public void testSetterAndGetterForFirstGrade (){
 		double grade = Double.valueOf(df.format(random.nextDouble()*10));
+		LOG.info("Testing setter and getter for first grade with: " + grade);
 		stLong.setFirstGrade(grade);
 		/*ta negativa nummer, noll, jättelånga siffror, jätte korta siffror, en test med random oformaterade*/
 		assertEquals(stLong.getFirstGrade(), grade, 0.00001);
-		LOG.info("Testing setter and getter for first grade with: " + grade);
 	}
 	
 	@Test
@@ -114,9 +114,11 @@ public class StudentTest {
 	
 	@Test
 	public void testToString (){
+		LOG.info("Testing method toString with: 6.5, 9.5, 8.2");
 		Student stud1 = new Student("Rafael","Silva",30,'M',6.5, 9.5,8.2);
 		String string1 = stud1.toString();
 		assertTrue(string1.contains("has cleared"));
+		LOG.info("Testing method toString with: 3.2, 5.1, 4.3");
 		Student stud2 = new Student("Rafael","Silva",30,'M',3.2, 5.1, 4.3);
 		String string2 = stud2.toString();
 		assertTrue(string2.contains("has not cleared"));	
